@@ -23,10 +23,13 @@ def openAndSavePic():
 def scale():
     if not listOfImages:
         messagebox.showerror("image not found", "Please choose an image first before continuing")
-    w = window.winfo_screenheight()
-    h = window.winfo_screenwidth()
     rgb = listOfImages[0]
-    fis.imshow(rgb, h, w)
+    img = Image.fromarray(rgb)
+    #w,h = img.size
+    #fis.imshow(rgb, h, w)
+    cv2.imshow('1:1', rgb)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 
 def rgb2gray(rgbIm):
