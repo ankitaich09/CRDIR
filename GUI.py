@@ -6,7 +6,6 @@ from tkinter import filedialog
 from tkinter import *
 from tkinter import messagebox
 import cv2
-import fullimageshow as fis
 from PIL import ImageTk, Image
 import numpy as np
 
@@ -36,32 +35,33 @@ def rgb2gray(rgbIm):
 
 
 def callOpener():
-    listOfImages = []
-    imageName = filedialog.askopenfilename()
-    fname, exten = str(imageName).split('.')
-    if not (exten == "nef"):
-        messagebox.showerror("Wrong Extension", "Please choose a nef rawfile")
-    img = rawpy.imread(imageName)
-    rgbImage = img.postprocess()
-    listOfImages.append(rgbImage)
-    listOfImages.append(img)
-    listOfImages.append(fname)
-    displayImage = listOfImages[0]
-    displayImage = Image.fromarray(displayImage)
-    displayImage = displayImage.resize((200,100))
-    displayImage = ImageTk.PhotoImage(displayImage)
-    panel = Label(window, image=displayImage)
-    panel.image = displayImage
-    panel.grid(column=10, row=20)
-
+    if not listOfImages:
+        imageName = filedialog.askopenfilename()
+        fname, exten = str(imageName).split('.')
+        if not (exten == "nef"):
+            messagebox.showerror("Wrong Extension", "Please choose a nef rawfile")
+        img = rawpy.imread(imageName)
+        rgbImage = img.postprocess()
+        listOfImages.append(rgbImage)
+        listOfImages.append(img)
+        listOfImages.append(fname)
+        displayImage = listOfImages[0]
+        displayImage = Image.fromarray(displayImage)
+        displayImage = displayImage.resize((200,100))
+        displayImage = ImageTk.PhotoImage(displayImage)
+        panel = Label(window, image=displayImage)
+        panel.image = displayImage
+        panel.grid(column=10, row=20)
+    else:
+        messagebox.showinfo('Message', 'Still working on program restarts')
 
 def hist():
     if not listOfImages:
         messagebox.showerror("image not found", "Please choose an image first before continuing")
     rgbImg = listOfImages[0]
-    redHist = cv2.calcHist(rgbImg, [1], None, [256], [0, 256])
-    greenHist = cv2.calcHist(rgbImg, [2], None, [256], [0, 256])
-    blueHist = cv2.calcHist(rgbImg, [3], None, [256], [0, 256])
+    redHist = cv2.calcHist(rgbImg, [2], None, [256], [0, 256])
+    greenHist = cv2.calcHist(rgbImg, [1], None, [256], [0, 256])
+    blueHist = cv2.calcHist(rgbImg, [0], None, [256], [0, 256])
     plt.figure()
     plt.plot(redHist)
     plt.title('Red Channel Histogram')
