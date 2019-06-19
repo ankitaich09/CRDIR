@@ -24,9 +24,6 @@ def scale():
     if not listOfImages:
         messagebox.showerror("image not found", "Please choose an image first before continuing")
     rgb = listOfImages[0]
-    img = Image.fromarray(rgb)
-    #w,h = img.size
-    #fis.imshow(rgb, h, w)
     cv2.imshow('1:1', rgb)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
@@ -39,6 +36,7 @@ def rgb2gray(rgbIm):
 
 
 def callOpener():
+    listOfImages = []
     imageName = filedialog.askopenfilename()
     fname, exten = str(imageName).split('.')
     if not (exten == "nef"):
@@ -100,7 +98,7 @@ openButton = Button(window, text='Show Image', command=openAndSavePic)
 openButton.grid(column=10, row=12)
 histogramButton = Button(window, text='Plot a histogram', command=hist)
 histogramButton.grid(column=10, row=14)
-scaleButton = Button(window, text='scale an image to fullscreen', command=scale)
+scaleButton = Button(window, text='scale an image to 1:1', command=scale)
 scaleButton.grid(column=10, row=16)
 bayerButton = Button(window, text='Generate Bayer Filter for matrix', command=generateBayer)
 bayerButton.grid(column=10, row=18)
