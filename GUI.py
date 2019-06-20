@@ -47,11 +47,13 @@ def callOpener():
         listOfImages.append(fname)
         displayImage = listOfImages[0]
         displayImage = Image.fromarray(displayImage)
-        displayImage = displayImage.resize((200,100))
+        displayImage = displayImage.resize((400,400))
         displayImage = ImageTk.PhotoImage(displayImage)
         panel = Label(window, image=displayImage)
         panel.image = displayImage
-        panel.grid(column=10, row=20)
+        panel.grid(column=100, row=20)
+        text = Label(window, text='Loaded Image')
+        text.grid(column=100, row=18)
     else:
         messagebox.showinfo('Message', 'Still working on program restarts')
 
@@ -86,10 +88,13 @@ def generateBayer():
     name = name[name.rfind('/')+1:]
     fname = '/Users/ankit/Documents/CRDIR Expedition 31 Single Camera/Bayer/'+'BayerFilter for' + name + '.csv'
     np.savetxt(fname, BayerFilter, delimiter=',')
-
+    bayerMessage = 'Bayer Filter matrix available in' + fname
+    messagebox.showinfo('File information', bayerMessage)
+    plt.imshow(BayerFilter)
+    plt.title('Raw Bayer Filter Image')
 
 window = Tk()
-window.geometry('250x400')
+window.geometry('650x600')
 window.title('CRDIR')
 impath = '/Users/ankit/Documents/CRDIR Expedition 31 Single Camera/iss031e011460.nef'
 text = Label(window, text='Welcome to CRDIR')
