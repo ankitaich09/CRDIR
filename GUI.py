@@ -1,5 +1,3 @@
-#Update 11Th June, because I figured out to do better stuff with lesser code
-
 import rawpy
 import matplotlib.pyplot as plt
 from tkinter import filedialog
@@ -56,6 +54,8 @@ def callOpener():
         text.grid(column=100, row=18)
     else:
         messagebox.showinfo('Message', 'Still working on program restarts')
+        exit()
+
 
 def hist():
     if not listOfImages:
@@ -93,6 +93,34 @@ def generateBayer():
     plt.imshow(BayerFilter)
     plt.title('Raw Bayer Filter Image')
 
+
+def splitImages():
+    rawImage = listOfImages[1].raw_image
+    rawRed = rawImage[::2, ::2]
+    rawBlue = rawImage[1::2, 1::2]
+    rawGreen1 = rawImage[::2, 1::2]
+    rawGreen2 = rawImage[1::2, 1::2]
+    plt.figure()
+    plt.imshow(rawImage, cmap="gray")
+    plt.title("Raw Image")
+    plt.figure()
+    plt.imshow(rawGreen1, cmap="gray")
+    plt.title("Green 1 Image")
+    plt.figure()
+    plt.imshow(rawGreen2, cmap="gray")
+    plt.title("Green 2 Image")
+    plt.figure()
+    plt.imshow(rawBlue, cmap="gray")
+    plt.title("Blue Image")
+    plt.figure()
+    plt.imshow(rawRed, cmap="gray")
+    plt.title("Red Image")
+
+
+
+
+
+
 window = Tk()
 window.geometry('650x600')
 window.title('CRDIR')
@@ -107,7 +135,8 @@ scaleButton = Button(window, text='scale an image to 1:1', command=scale)
 scaleButton.grid(column=10, row=16)
 bayerButton = Button(window, text='Generate Bayer Filter for matrix', command=generateBayer)
 bayerButton.grid(column=10, row=18)
+splitterButton = Button(window, text='Split Channels', command=splitImages)
+splitterButton.grid(column=10, row=20)
 loadButton = Button(window, text='load an image', command=callOpener)
 loadButton.grid(column=10, row=10)
 window.mainloop()
-
